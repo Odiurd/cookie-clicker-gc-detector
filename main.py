@@ -2,6 +2,14 @@ import cv2
 import numpy as np
 import pyautogui
 import time
+import signal
+import sys
+from typing import Optional
+
+
+def signal_handler(sig: int, frame: Optional[object]) -> None:
+    print("\nExiting gracefully...")
+    sys.exit(0)
 
 
 def capture_active_window() -> np.ndarray:
@@ -23,11 +31,24 @@ def detect_golden_cookie(
     return np.any(result >= confidence_threshold)
 
 
-while True:
-    golden_cookie_image = cv2.imread("golden_cookie.jpg", cv2.IMREAD_UNCHANGED)
-    screen = capture_active_window()
-    if detect_golden_cookie(screen, golden_cookie_image):
-        print("Found a golden cookie")
-        time.sleep(10)
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signal_handler)
 
-    time.sleep(1)
+    try:
+        golden_cookie_image = cv2.imread("golden_cookie.jpg", cv2.IMREAD_UNCHANGED)
+        if golden_cookie_image is None:
+            raise FileNotFoundError("Could not load golden cookie image")
+
+        while True:
+            try:
+                screen = capture_active_window()
+                if detect_golden_cookie(screen, golden_cookie_image):
+                    print("Found a golden cookie")
+                    time.sleep(10)
+            except Exception as e:
+                print(f"Error capturing active window: {e}")
+            time.sleep(1)
+
+    except Exception as e:
+        print(f"An error occured: {e}")
+        sys.exit(1)
