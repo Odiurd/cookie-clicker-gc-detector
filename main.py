@@ -4,6 +4,7 @@ import pyautogui
 import time
 import signal
 import sys
+import winsound
 from typing import Optional
 
 
@@ -43,7 +44,7 @@ if __name__ == "__main__":
             try:
                 screen = capture_active_window()
                 if detect_golden_cookie(screen, golden_cookie_image):
-                    print("Found a golden cookie")
+                    winsound.Beep(1000, 750)
                     time.sleep(10)
             except Exception as e:
                 print(f"Error capturing active window: {e}")
