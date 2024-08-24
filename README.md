@@ -1,0 +1,2 @@
+# cookie-clicker-gc-detector
+ 
