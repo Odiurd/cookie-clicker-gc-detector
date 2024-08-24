@@ -9,6 +9,14 @@ from typing import Optional
 
 
 class GoldenCookieDetector:
+    """
+    A class for detecting golden cookies in a Cookie Clicker game window.
+
+    Attributes:
+        template (np.ndarray): The template image of a golden cookie.
+        confidence_threshold (float): The threshold for matching confidence.
+    """
+
     def __init__(self, template_path: str, confidence_threshold=0.55):
         self.template = self._load_template(template_path)
         self.confidence_threshold = confidence_threshold
@@ -44,6 +52,17 @@ def run_detector(
     beep_hz: int = 1000,
     beep_ms: int = 750,
 ) -> None:
+    """
+    Run the golden cookie detector continuously.
+
+    Args:
+        detector (GoldenCookieDetector): The detector instance to use.
+        check_interval (float, optional): Time between checks in seconds. Defaults to 1.0.
+        cooldown (float, optional): Cooldown time after detection in seconds. Defaults to 10.0.
+        beep_hz (int, optional): Frequency of the beep sound in Hz. Defaults to 1000.
+        beep_ms (int, optional): Duration of the beep sound in milliseconds. Defaults to 750.
+    """
+
     def signal_handler(sig: int, frame: Optional[object]) -> None:
         print("\nExiting gracefully...")
         sys.exit(0)
