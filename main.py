@@ -38,7 +38,11 @@ class GoldenCookieDetector:
 
 
 def run_detector(
-    detector: GoldenCookieDetector, check_interval: float = 1.0, cooldown: float = 10.0
+    detector: GoldenCookieDetector,
+    check_interval: float = 1.0,
+    cooldown: float = 10.0,
+    beep_hz: int = 1000,
+    beep_ms: int = 750,
 ) -> None:
     def signal_handler(sig: int, frame: Optional[object]) -> None:
         print("\nExiting gracefully...")
@@ -52,7 +56,7 @@ def run_detector(
                 screen = detector.capture_active_window()
                 if detector.detect_golden_cookie(screen):
                     print("Found a golden cookie!")
-                    winsound.Beep(1000, 750)
+                    winsound.Beep(beep_hz, beep_ms)
                     time.sleep(cooldown)
             except Exception as e:
                 print(f"Error capturing active window: {e}")
