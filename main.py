@@ -32,7 +32,7 @@ class GoldenCookieDetector:
         screenshot_np = np.array(screenshot)
         return cv2.cvtColor(screenshot_np, cv2.COLOR_RGB2BGR)
 
-    def detect_golde_cookie(self, screen: np.ndarray) -> bool:
+    def detect_golden_cookie(self, screen: np.ndarray) -> bool:
         result = cv2.matchTemplate(screen, self.template, cv2.TM_CCOEFF_NORMED)
         return np.any(result >= self.confidence_threshold)
 
@@ -50,7 +50,7 @@ def run_detector(
         while True:
             try:
                 screen = detector.capture_active_window()
-                if detector.detect_golde_cookie(screen):
+                if detector.detect_golden_cookie(screen):
                     print("Found a golden cookie!")
                     winsound.Beep(1000, 750)
                     time.sleep(cooldown)
